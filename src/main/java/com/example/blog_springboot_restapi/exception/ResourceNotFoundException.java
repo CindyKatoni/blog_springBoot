@@ -10,14 +10,15 @@ public class ResourceNotFoundException extends RuntimeException{
     private String fieldValue;
 
     public ResourceNotFoundException(String resourceName, String fieldName, String fieldValue) {
-        //pass message to the super class constructor using super keyword
-        //Post not found with id : 1
+//        pass message to the super class constructor using super keyword
+//        Post not found with id : 1
         super(String.format("%s not found with %s : '%s'", resourceName,
                 fieldName,fieldValue));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
     }
+
 
     //Define getter methods for this private fields
     public String getResourceName() {
