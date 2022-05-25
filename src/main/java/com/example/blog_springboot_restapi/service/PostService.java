@@ -9,7 +9,7 @@ import java.util.Map;
 public interface PostService {
     PostDto createPost(PostDto postDto);
 
-    PostResponse getAllPosts(int pageNo, int pageSize);
+    PostResponse getAllPosts(int pageNo, int pageSize, String sortBy);
 //    Map<String, String> getAllPosts();
 
     PostDto getPostById(long id);
