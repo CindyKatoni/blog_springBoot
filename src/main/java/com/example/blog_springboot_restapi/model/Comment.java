@@ -26,4 +26,7 @@ public class Comment {
     @JoinColumn(name = "post_id", nullable = false)//specify FK
     private Post post;
 
+
+
+
 }
