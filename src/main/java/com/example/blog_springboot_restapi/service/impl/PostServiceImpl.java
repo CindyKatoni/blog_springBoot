@@ -5,6 +5,9 @@ import com.example.blog_springboot_restapi.model.Post;
 import com.example.blog_springboot_restapi.repository.PostRepository;
 import com.example.blog_springboot_restapi.service.PostService;
 import com.example.blog_springboot_restapi.payload.PostDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -35,9 +38,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+    public List<PostDto> getAllPosts(int pageNo, int pageSize) {
+
+        //Create pageable instance
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        Page<Post> posts = postRepository.findAll(pageable);
+
+        //get content for page object
+        List<Post> listOfPosts = posts.getContent();
+
+        return listOfPosts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
 
     }
 
