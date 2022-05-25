@@ -8,7 +8,7 @@ import java.util.Map;
 public interface PostService {
     PostDto createPost(PostDto postDto);
 
-    List<PostDto> getAllPosts();
+    List<PostDto> getAllPosts(int pageNo, int pageSize);
 //    Map<String, String> getAllPosts();
 
     PostDto getPostById(long id);
