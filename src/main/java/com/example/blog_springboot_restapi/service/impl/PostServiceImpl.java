@@ -1,12 +1,16 @@
 package com.example.blog_springboot_restapi.service.impl;
 
+import com.example.blog_springboot_restapi.exception.ResourceNotFoundException;
 import com.example.blog_springboot_restapi.model.Post;
 import com.example.blog_springboot_restapi.repository.PostRepository;
 import com.example.blog_springboot_restapi.service.PostService;
 import com.example.blog_springboot_restapi.payload.PostDto;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -32,8 +36,33 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> getAllPosts() {
-        return null;
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+
     }
+
+
+    @Override
+    public PostDto getPostById(long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        return mapToDTO(post);
+    }
+
+    @Override
+    public PostDto updatePost(PostDto postDto, long id) {
+        //get post by id from the database:: if it doesn't exist throw the exception
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        //set the new updated details to the post model
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+        post.setContent(postDto.getContent());
+
+        //save updated post in the db
+        Post updatedPost = postRepository.save(post);
+
+        return mapToDTO(updatedPost);
+    }
+
 
     //create a private method that can be reused
     //convert entity to DTO
