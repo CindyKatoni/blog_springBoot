@@ -19,7 +19,6 @@ public class CommentServiceImpl implements CommentService {
         this.postRepository = postRepository;
     }
 
-    @Override
     public CommentDto createComment(Long postId, CommentDto commentDto){
         //Convert commentDto to Comment Entity
         Comment comment = mapToEntity(commentDto);
@@ -56,5 +55,10 @@ public class CommentServiceImpl implements CommentService {
         comment.setEmail(commentDto.getEmail());
         comment.setMessageBody(commentDto.getMessageBody());
         return comment;
+    }
+
+    @Override
+    public CommentDto createComment(CommentDto commentDto) {
+        return null;
     }
 }
