@@ -1,5 +1,6 @@
 package com.example.blog_springboot_restapi.service.impl;
 
+import java.lang.*;
 import com.example.blog_springboot_restapi.exception.ResourceNotFoundException;
 import com.example.blog_springboot_restapi.model.Comment;
 import com.example.blog_springboot_restapi.model.Post;
@@ -19,24 +20,25 @@ public class CommentServiceImpl implements CommentService {
         this.postRepository = postRepository;
     }
 
-    public CommentDto createComment(Long postId, CommentDto commentDto){
+    @Override
+    public CommentDto createComment(long postId, CommentDto commentDto) {
         //Convert commentDto to Comment Entity
         Comment comment = mapToEntity(commentDto);
 
-        //Retrieve Post Entity by id
-        Post post = postRepository.findById(postId).
-                orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
+        // retrieve post entity by id
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
 
         //Set post to comment entity
         comment.setPost(post);
 
-        //save comment entity to the db
-
-        Comment newComment = commentRepository.save(comment);
+        // save comment entity to DB
+        Comment newComment =  commentRepository.save(comment);
 
         return mapToDto(newComment);
 
     }
+
 
     //convert entity to DTO
     private CommentDto mapToDto(Comment comment){
@@ -44,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
         commentDto.setId(comment.getId());
         commentDto.setName(comment.getName());
         commentDto.setEmail(comment.getEmail());
-        commentDto.setMessageBody(comment.getMessageBody());
+        commentDto.setBody(comment.getBody());
         return commentDto;
     }
     //convert DTO to entity
@@ -53,12 +55,10 @@ public class CommentServiceImpl implements CommentService {
         comment.setId(commentDto.getId());
         comment.setName(commentDto.getName());
         comment.setEmail(commentDto.getEmail());
-        comment.setMessageBody(commentDto.getMessageBody());
+        comment.setBody(commentDto.getBody());
         return comment;
     }
 
-    @Override
-    public CommentDto createComment(CommentDto commentDto) {
-        return null;
-    }
+
+
 }
