@@ -1,6 +1,9 @@
 package com.example.blog_springboot_restapi.service.impl;
 
 import java.lang.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.blog_springboot_restapi.exception.ResourceNotFoundException;
 import com.example.blog_springboot_restapi.model.Comment;
 import com.example.blog_springboot_restapi.model.Post;
@@ -37,6 +40,15 @@ public class CommentServiceImpl implements CommentService {
 
         return mapToDto(newComment);
 
+    }
+
+    @Override
+    public List<CommentDto> getCommentsByPostId(long postId) {
+        //retrieve comments by postId
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        //convert the List of comments entity to list of comments dto using stream(),
+        // use map() to map entity to dto. Then collect the result to a list
+        return comments.stream().map(comment -> mapToDto(comment)).collect(Collectors.toList());
     }
 
 
