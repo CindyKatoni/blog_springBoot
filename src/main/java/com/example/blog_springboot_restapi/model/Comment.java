@@ -9,24 +9,20 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
-@Table(name = "comments" )
+@Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     private String name;
     private String email;
-    private String messageBody;
+    private String body;
 
-    //establish one-to-many relationship
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)//specify FK
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
-
-
-
-
 }
